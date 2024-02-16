@@ -6,6 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:people_manager/home/services/home_api_services.dart';
 import 'package:people_manager/models/user.dart';
+import 'package:people_manager/utils/app_strings.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -15,6 +16,8 @@ enum ActiveStatus { active, inactive }
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(HomeInitialState()) {
     on<HomeGetUserListEvent>(_onHomeGetUserListEvent);
+    on<HomeCreateUserEvent>(_onHomeCreateUserEvent);
+    on<HomeUpdateUserEvent>(_onHomeUpdateUserEvent);
   }
 
   List<User> users = [];
@@ -44,6 +47,69 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         },
         (error) {
           emit(HomeErrorState(error: error));
+        },
+      );
+    });
+  }
+
+  FutureOr<void> _onHomeCreateUserEvent(
+    HomeCreateUserEvent event,
+    Emitter<HomeState> emit,
+  ) async {
+    emit(HomeCreatingUserState());
+    await HomeApiServices.createUsers(event.user).then((value) {
+      value.fold(
+        (user) {
+          if (user.status == ActiveStatus.active.name) {
+            activeUsers.insert(0, user);
+          } else {
+            inactiveUsers.insert(0, user);
+          }
+          emit(HomeUserCreatedState(message: AppStrings.providerCreatedSuccessfully));
+          emit(HomeLoadedState());
+        },
+        (error) {
+          emit(HomeErrorState(error: error));
+          emit(HomeLoadedState());
+        },
+      );
+    });
+  }
+
+  FutureOr<void> _onHomeUpdateUserEvent(
+    HomeUpdateUserEvent event,
+    Emitter<HomeState> emit,
+  ) async {
+    emit(HomeUserUpdatingState());
+    await HomeApiServices.updateUsers(event.user).then((value) {
+      value.fold(
+        (updatedUser) {
+          for (var i = 0; i < activeUsers.length; i++) {
+            if (activeUsers[i].id == updatedUser.id) {
+              activeUsers.removeAt(i);
+              break;
+            }
+          }
+
+          for (var i = 0; i < inactiveUsers.length; i++) {
+            if (inactiveUsers[i].id == updatedUser.id) {
+              inactiveUsers.removeAt(i);
+              break;
+            }
+          }
+
+          if (updatedUser.status == ActiveStatus.active.name) {
+            activeUsers.insert(0, updatedUser);
+          } else {
+            inactiveUsers.insert(0, updatedUser);
+          }
+
+          emit(HomeUserUpdatedState(message: AppStrings.providerUpdatedSuccessfully));
+          emit(HomeLoadedState());
+        },
+        (error) {
+          emit(HomeErrorState(error: error));
+          emit(HomeLoadedState());
         },
       );
     });

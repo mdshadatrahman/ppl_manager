@@ -1,6 +1,6 @@
-import 'package:equatable/equatable.dart';
+// ignore_for_file: lines_longer_than_80_chars
 
-class User extends Equatable {
+class User {
   User({
     this.id,
     this.name,
@@ -33,6 +33,7 @@ class User extends Equatable {
   }
 
   @override
-  // TODO: implement props
-  List<Object?> get props => [id, name, email, status];
+  String toString() {
+    return 'User(id: $id, name: $name, email: $email, gender: $gender, status: $status)';
+  }
 }

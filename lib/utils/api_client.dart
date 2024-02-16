@@ -77,7 +77,7 @@ class ApiClient {
     );
   }
 
-  Future<Response<dynamic>> put({
+  Future<Response<Map<String, dynamic>>> put({
     required String url,
     Map<String, dynamic>? body,
     Map<String, dynamic>? headers,
