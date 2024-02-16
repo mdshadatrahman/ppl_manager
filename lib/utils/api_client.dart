@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 import 'package:people_manager/utils/url.dart';
 
+/// ApiClient class is used to make API calls.
 class ApiClient {
   factory ApiClient() {
     return _instance;

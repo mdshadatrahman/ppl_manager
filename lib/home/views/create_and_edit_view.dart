@@ -13,6 +13,7 @@ import 'package:people_manager/shared/widgets/custom_dropdown_button.dart';
 import 'package:people_manager/shared/widgets/custom_text_field.dart';
 import 'package:people_manager/utils/app_colors.dart';
 import 'package:people_manager/utils/app_sizes.dart';
+import 'package:people_manager/utils/app_strings.dart';
 
 class CreateAndEditView extends StatefulWidget {
   const CreateAndEditView({
@@ -72,7 +73,7 @@ class _CreateAndEditViewState extends State<CreateAndEditView> {
             ),
             SizedBox(width: 8.w),
             Text(
-              widget.user == null ? 'Create' : 'Update',
+              widget.user == null ? AppStrings.create : AppStrings.update,
               style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.bold,
@@ -109,11 +110,11 @@ class _CreateAndEditViewState extends State<CreateAndEditView> {
                   SizedBox(height: 30.h),
                   CustomTextField(
                     controller: _nameController,
-                    labelText: 'Name',
-                    hintText: 'Enter your name',
+                    labelText: AppStrings.name,
+                    hintText: AppStrings.enterYourName,
                     validator: (v) {
                       if (v == null || v.isEmpty) {
-                        return 'Name is required';
+                        return AppStrings.nameIsRequired;
                       }
                       return null;
                     },
@@ -121,14 +122,14 @@ class _CreateAndEditViewState extends State<CreateAndEditView> {
                   SizedBox(height: 20.h),
                   CustomTextField(
                     controller: _emailController,
-                    labelText: 'Email',
-                    hintText: 'Enter your email address',
+                    labelText: AppStrings.email,
+                    hintText: AppStrings.enterYourEmail,
                     validator: (v) {
                       if (v == null || v.isEmpty) {
-                        return 'Email is required';
+                        return AppStrings.emailIsRequired;
                       }
                       if (!v.isValidEmail()) {
-                        return 'Invalid email';
+                        return AppStrings.invalidEmail;
                       }
                       return null;
                     },
@@ -157,7 +158,7 @@ class _CreateAndEditViewState extends State<CreateAndEditView> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Status',
+                          AppStrings.status,
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
@@ -182,15 +183,19 @@ class _CreateAndEditViewState extends State<CreateAndEditView> {
                     ),
                   ),
                   SizedBox(height: 50.h),
-                  if (state is HomeCreatingUserState)
-                    const Center(child: CircularProgressIndicator())
+                  if (state is HomeCreatingUserState || state is HomeUserUpdatingState)
+                    const Center(
+                      child: CircularProgressIndicator.adaptive(
+                        backgroundColor: AppColors.primaryColor,
+                      ),
+                    )
                   else
                     PrimaryButton(
-                      buttonText: widget.user == null ? 'SAVE' : 'UPDATE',
+                      buttonText: widget.user == null ? AppStrings.save : AppStrings.update.toUpperCase(),
                       onTap: () {
                         if (formKey.currentState!.validate()) {
                           if (_selectedGender == null) {
-                            Fluttertoast.showToast(msg: 'Please select gender');
+                            Fluttertoast.showToast(msg: AppStrings.pleaseSelectGender);
                             return;
                           }
 
@@ -207,7 +212,7 @@ class _CreateAndEditViewState extends State<CreateAndEditView> {
                             context.read<HomeBloc>().add(HomeUpdateUserEvent(user: user));
                           }
                         } else {
-                          Fluttertoast.showToast(msg: 'Please fill all the fields');
+                          Fluttertoast.showToast(msg: AppStrings.pleaseFillAllTheFields);
                         }
                       },
                     ),

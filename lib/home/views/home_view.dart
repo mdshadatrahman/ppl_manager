@@ -11,6 +11,8 @@ import 'package:people_manager/home/widgets/tab_button.dart';
 import 'package:people_manager/home/widgets/user_card.dart';
 import 'package:people_manager/utils/app_colors.dart';
 import 'package:people_manager/utils/app_sizes.dart';
+import 'package:people_manager/utils/app_strings.dart';
+import 'package:people_manager/utils/get_colors.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -68,7 +70,7 @@ class _HomeViewState extends State<HomeView> {
                             isActivatedTabOpen = true;
                           });
                         },
-                        text: 'Active',
+                        text: AppStrings.active,
                       ),
                     ),
                     SizedBox(width: 16.w),
@@ -80,7 +82,7 @@ class _HomeViewState extends State<HomeView> {
                             isActivatedTabOpen = false;
                           });
                         },
-                        text: 'Deactivate',
+                        text: AppStrings.deactivate,
                       ),
                     ),
                   ],
@@ -114,7 +116,7 @@ class _HomeViewState extends State<HomeView> {
                       if (isActivatedTabOpen && context.read<HomeBloc>().activeUsers.isEmpty) {
                         return Center(
                           child: Text(
-                            'No active people found',
+                            AppStrings.noActivePeopleFound,
                             style: TextStyle(
                               color: AppColors.lightText,
                               fontSize: 16.sp,
@@ -126,7 +128,7 @@ class _HomeViewState extends State<HomeView> {
                       if (!isActivatedTabOpen && context.read<HomeBloc>().inactiveUsers.isEmpty) {
                         return Center(
                           child: Text(
-                            'No inactive people found',
+                            AppStrings.noInactivePeopleFound,
                             style: TextStyle(
                               color: AppColors.lightText,
                               fontSize: 16.sp,
@@ -147,7 +149,7 @@ class _HomeViewState extends State<HomeView> {
                                 name: user.name ?? '',
                                 email: user.email ?? '',
                                 gender: user.gender ?? '',
-                                profilePlaceholderColor: AppColors.blue,
+                                profilePlaceholderColor: getColor(index),
                                 isDeactivated: user.status == ActiveStatus.inactive.name,
                                 onTap: () {
                                   Navigator.of(context).push(

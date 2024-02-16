@@ -20,8 +20,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeUpdateUserEvent>(_onHomeUpdateUserEvent);
   }
 
+  /// List of [User] fetched from the API for the first time.
   List<User> users = [];
+
+  /// List of [User] with status [ActiveStatus.active].
   List<User> activeUsers = [];
+
+  /// List of [User] with status [ActiveStatus.inactive].
   List<User> inactiveUsers = [];
 
   FutureOr<void> _onHomeGetUserListEvent(
@@ -84,6 +89,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     await HomeApiServices.updateUsers(event.user).then((value) {
       value.fold(
         (updatedUser) {
+          /// Remove the updated user from the list and add it to the top of the list.
           for (var i = 0; i < activeUsers.length; i++) {
             if (activeUsers[i].id == updatedUser.id) {
               activeUsers.removeAt(i);
