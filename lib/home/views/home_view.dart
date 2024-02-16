@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:people_manager/gen/assets.gen.dart';
+import 'package:people_manager/home/views/create_and_edit_view.dart';
 import 'package:people_manager/home/widgets/contact_card.dart';
 import 'package:people_manager/home/widgets/tab_button.dart';
 import 'package:people_manager/utils/app_colors.dart';
 import 'package:people_manager/utils/app_sizes.dart';
+import 'package:people_manager/utils/custom_dropdown_button.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -27,7 +29,15 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (BuildContext context) {
+                return const CreateAndEditView();
+              },
+            ),
+          );
+        },
         backgroundColor: AppColors.primaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(1000.r),
@@ -76,7 +86,17 @@ class _HomeViewState extends State<HomeView> {
                           gender: 'Female',
                           profilePlaceholderColor: AppColors.blue,
                           isDeactivated: index.isEven,
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (BuildContext context) {
+                                  return CreateAndEditView(
+                                    contact: Contact(),
+                                  );
+                                },
+                              ),
+                            );
+                          },
                         ),
                       );
                     },

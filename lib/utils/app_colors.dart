@@ -9,4 +9,8 @@ class AppColors {
   static const darkText = Color(0xff535353);
   static const darkText2 = Color(0xff656565);
   static const lightText = Color(0xffEBEBEB);
+  static const borderColor = Color(0xffB3B3B3);
+  static const labelColor = Color(0xff606161);
+  static const textFieldTextColor = Color(0xff4D4D4D);
+  static const switchInactiveColor = Color(0xffD9D9D9);
 }

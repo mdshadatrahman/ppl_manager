@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:people_manager/home/bloc/home_bloc.dart';
 import 'package:people_manager/home/views/home_view.dart';
 import 'package:people_manager/l10n/l10n.dart';
+import 'package:people_manager/utils/app_colors.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -30,11 +31,14 @@ class _AppState extends State<App> {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            appBarTheme: AppBarTheme(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            appBarTheme: const AppBarTheme(
+              backgroundColor: AppColors.primaryColor,
+              foregroundColor: Colors.white,
+              iconTheme: IconThemeData(color: Colors.white),
             ),
             useMaterial3: true,
             fontFamily: GoogleFonts.roboto().fontFamily,
+            primaryColor: AppColors.primaryColor,
           ),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
