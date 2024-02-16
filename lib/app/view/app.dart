@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:people_manager/home/bloc/home_bloc.dart';
 import 'package:people_manager/home/views/home_view.dart';
 import 'package:people_manager/l10n/l10n.dart';
+import 'package:people_manager/utils/api_client.dart';
 import 'package:people_manager/utils/app_colors.dart';
 
 class App extends StatefulWidget {
@@ -18,6 +19,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
+    ApiClient.init();
   }
 
   @override

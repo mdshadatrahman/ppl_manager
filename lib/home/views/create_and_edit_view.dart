@@ -1,27 +1,56 @@
 // ignore_for_file: lines_longer_than_80_chars
 
+import 'dart:developer' as developer show log;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:people_manager/home/bloc/home_bloc.dart';
+import 'package:people_manager/home/widgets/user_card.dart';
+import 'package:people_manager/models/user.dart';
+import 'package:people_manager/shared/widgets/custom_dropdown_button.dart';
+import 'package:people_manager/shared/widgets/custom_text_field.dart';
 import 'package:people_manager/utils/app_colors.dart';
 import 'package:people_manager/utils/app_sizes.dart';
-import 'package:people_manager/utils/custom_dropdown_button.dart';
-import 'package:people_manager/utils/custom_text_field.dart';
 
 class CreateAndEditView extends StatefulWidget {
   const CreateAndEditView({
-    this.contact,
+    this.user,
     super.key,
   });
 
-  final Contact? contact;
+  final User? user;
 
   @override
   State<CreateAndEditView> createState() => _CreateAndEditViewState();
 }
 
 class _CreateAndEditViewState extends State<CreateAndEditView> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   String? _selectedGender;
-  bool status = false;
+  bool _status = false;
+
+  @override
+  void initState() {
+    super.initState();
+    try {
+      _nameController.text = widget.user?.name ?? '';
+      _emailController.text = widget.user?.email ?? '';
+      _selectedGender = widget.user!.gender?.toTitleCase();
+      widget.user?.status == ActiveStatus.active.name ? _status = true : _status = false;
+    } catch (e) {
+      developer.log('Error: $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _status = false;
+    _selectedGender = null;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +69,7 @@ class _CreateAndEditViewState extends State<CreateAndEditView> {
             ),
             SizedBox(width: 8.w),
             Text(
-              widget.contact == null ? 'Create' : 'Update',
+              widget.user == null ? 'Create' : 'Update',
               style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.bold,
@@ -56,7 +85,7 @@ class _CreateAndEditViewState extends State<CreateAndEditView> {
           children: [
             SizedBox(height: 30.h),
             CustomTextField(
-              controller: TextEditingController(text: widget.contact?.name),
+              controller: _nameController,
               labelText: 'Name',
               hintText: 'Enter your name',
               validator: (v) {
@@ -68,7 +97,7 @@ class _CreateAndEditViewState extends State<CreateAndEditView> {
             ),
             SizedBox(height: 20.h),
             CustomTextField(
-              controller: TextEditingController(text: widget.contact?.name),
+              controller: _emailController,
               labelText: 'Email',
               hintText: 'Enter your email address',
               validator: (v) {
@@ -119,10 +148,10 @@ class _CreateAndEditViewState extends State<CreateAndEditView> {
                     inactiveTrackColor: AppColors.switchInactiveColor,
                     activeTrackColor: AppColors.primaryColor.withOpacity(0.5),
                     trackOutlineColor: MaterialStateProperty.all(Colors.white),
-                    value: status,
+                    value: _status,
                     onChanged: (v) {
                       setState(() {
-                        status = v;
+                        _status = v;
                       });
                     },
                   ),
@@ -138,7 +167,7 @@ class _CreateAndEditViewState extends State<CreateAndEditView> {
               ),
               child: Center(
                 child: Text(
-                  widget.contact == null ? 'SAVE' : 'UPDATE',
+                  widget.user == null ? 'SAVE' : 'UPDATE',
                   style: TextStyle(
                     fontSize: 18.sp,
                     fontWeight: FontWeight.bold,

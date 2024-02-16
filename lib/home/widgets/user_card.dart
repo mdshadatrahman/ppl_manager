@@ -6,8 +6,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:people_manager/gen/assets.gen.dart';
 import 'package:people_manager/utils/app_colors.dart';
 
-class ContactCard extends StatelessWidget {
-  const ContactCard({
+class UserCard extends StatelessWidget {
+  const UserCard({
     required this.name,
     required this.email,
     required this.gender,
@@ -80,7 +80,7 @@ class ContactCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    gender,
+                    gender.toTitleCase(),
                     style: TextStyle(
                       color: AppColors.inactive,
                       fontSize: 14.sp,
@@ -109,5 +109,11 @@ class ContactCard extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+extension StringExtension on String {
+  String toTitleCase() {
+    return '${this[0].toUpperCase()}${substring(1)}';
   }
 }
