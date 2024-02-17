@@ -26,7 +26,7 @@ class CustomShapeBorder extends CustomPainter {
     final paint = Paint()
       ..color = Colors.black
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
+      ..strokeWidth = 5;
 
     final path = Path()
       ..moveTo(1, 0) // 1 pixel to the right

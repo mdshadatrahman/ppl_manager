@@ -28,11 +28,14 @@ class $AssetsSvgsGen {
   /// File path: assets/svgs/edit_icon.svg
   String get editIcon => 'assets/svgs/edit_icon.svg';
 
+  /// File path: assets/svgs/logo.svg
+  String get logo => 'assets/svgs/logo.svg';
+
   /// File path: assets/svgs/topbarbg.svg
   String get topbarbg => 'assets/svgs/topbarbg.svg';
 
   /// List of all assets
-  List<String> get values => [addIcon, editIcon, topbarbg];
+  List<String> get values => [addIcon, editIcon, logo, topbarbg];
 }
 
 class Assets {

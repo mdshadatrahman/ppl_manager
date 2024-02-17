@@ -27,12 +27,15 @@ class CreateAndEditView extends StatefulWidget {
   State<CreateAndEditView> createState() => _CreateAndEditViewState();
 }
 
-class _CreateAndEditViewState extends State<CreateAndEditView> {
+class _CreateAndEditViewState extends State<CreateAndEditView> with SingleTickerProviderStateMixin {
   bool _status = false;
   String? _selectedGender;
   final formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
   @override
   void initState() {
@@ -42,9 +45,32 @@ class _CreateAndEditViewState extends State<CreateAndEditView> {
       _emailController.text = widget.user?.email ?? '';
       _selectedGender = widget.user?.gender?.toTitleCase();
       widget.user?.status == ActiveStatus.active.name ? _status = true : _status = false;
+      _initAnimation();
+      if (_status) {
+        switchOn();
+      }
     } catch (e) {
       developer.log('Error: $e');
     }
+  }
+
+  void _initAnimation() {
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void switchOn() {
+    _controller.forward();
+  }
+
+  void switchOff() {
+    _controller.reverse();
   }
 
   @override
@@ -53,6 +79,7 @@ class _CreateAndEditViewState extends State<CreateAndEditView> {
     _emailController.dispose();
     _status = false;
     _selectedGender = null;
+    _controller.dispose();
     super.dispose();
   }
 
@@ -146,7 +173,7 @@ class _CreateAndEditViewState extends State<CreateAndEditView> {
                   ),
                   SizedBox(height: 20.h),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                    padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 14.h),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4.r),
                       border: Border.all(
@@ -165,20 +192,72 @@ class _CreateAndEditViewState extends State<CreateAndEditView> {
                             color: AppColors.textFieldTextColor,
                           ),
                         ),
-                        Switch(
-                          activeColor: AppColors.primaryColor,
-                          thumbColor: MaterialStateProperty.all(AppColors.primaryColor),
-                          overlayColor: MaterialStateProperty.all(AppColors.primaryColor),
-                          inactiveTrackColor: AppColors.switchInactiveColor,
-                          activeTrackColor: AppColors.primaryColor.withOpacity(0.5),
-                          trackOutlineColor: MaterialStateProperty.all(Colors.white),
-                          value: _status,
-                          onChanged: (v) {
-                            setState(() {
-                              _status = v;
-                            });
-                          },
+                        Stack(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                if (_status) {
+                                  switchOff();
+                                } else {
+                                  switchOn();
+                                }
+                                setState(() {
+                                  _status = !_status;
+                                });
+                              },
+                              child: Container(
+                                height: 22.h,
+                                width: 64.w,
+                                decoration: BoxDecoration(
+                                  color: AppColors.switchInactiveColor,
+                                  borderRadius: BorderRadius.circular(1000.r),
+                                ),
+                              ),
+                            ),
+                            AnimatedBuilder(
+                              animation: _animation,
+                              builder: (context, child) {
+                                return Transform.translate(
+                                  offset: Offset(_animation.value * 42.w, 0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      if (_status) {
+                                        switchOff();
+                                      } else {
+                                        switchOn();
+                                      }
+                                      setState(() {
+                                        _status = !_status;
+                                      });
+                                    },
+                                    child: Container(
+                                      height: 22.h,
+                                      width: 22.w,
+                                      decoration: const BoxDecoration(
+                                        color: AppColors.primaryColor,
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
                         ),
+                        // Switch(
+                        //   activeColor: AppColors.primaryColor,
+                        //   thumbColor: MaterialStateProperty.all(AppColors.primaryColor),
+                        //   overlayColor: MaterialStateProperty.all(AppColors.primaryColor),
+                        //   inactiveTrackColor: AppColors.switchInactiveColor,
+                        //   activeTrackColor: AppColors.primaryColor.withOpacity(0.5),
+                        //   trackOutlineColor: MaterialStateProperty.all(Colors.white),
+                        //   value: _status,
+                        //   onChanged: (v) {
+                        //     setState(() {
+                        //       _status = v;
+                        //     });
+                        //   },
+                        // ),
                       ],
                     ),
                   ),

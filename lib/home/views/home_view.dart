@@ -62,6 +62,25 @@ class _HomeViewState extends State<HomeView> {
                   color: AppColors.primaryColor,
                 ),
               ),
+              Positioned(
+                right: 0,
+                left: 0,
+                top: 40,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(Assets.svgs.logo),
+                    SizedBox(height: 8.h),
+                    Text(
+                      'Service Provider List',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               CustomPaint(
                 painter: CustomShapeBorder(),
                 child: Container(
