@@ -1,3 +1,17 @@
+
+
+
+https://github.com/mdshadatrahman/ppl_manager/assets/43848931/053c0a95-31a5-4b27-8cc8-9ba08827c088
+
+![Screenshot_1708184309](https://github.com/mdshadatrahman/ppl_manager/assets/43848931/03ca7950-2d8f-48d4-ab56-d20059529304)
+![Screenshot_1708184311](https://github.com/mdshadatrahman/ppl_manager/assets/43848931/3492e5b2-3c2c-4bad-9bf9-9f2af86d19b5)
+![Screenshot_1708184314](https://github.com/mdshadatrahman/ppl_manager/assets/43848931/6c54bd48-95fc-463b-804f-b376770d7dd4)
+![Screenshot_1708184336](https://github.com/mdshadatrahman/ppl_manager/assets/43848931/643d4c32-60d2-4ece-a76e-f89634af955d)
+![Screenshot_1708184341](https://github.com/mdshadatrahman/ppl_manager/assets/43848931/b6c75d44-5151-455b-afca-4a31feed7cfc)
+
+
+
+
 # People Manager
 
 ![coverage][coverage_badge]
