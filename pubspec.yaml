@@ -19,7 +19,7 @@ dependencies:
   flutter_screenutil: ^5.9.0
   flutter_svg: ^2.0.9
   fluttertoast: ^8.2.4
-  google_fonts: ^6.1.0
+  google_fonts: ^6.2.1
   intl: ^0.18.0
   logger: ^2.0.2+1
   meta: ^1.10.0
